@@ -2,6 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 
 import { tokenHelper } from '@/helpers';
 
+
 export default function (sequelize) {
   class User extends Model {
     get fullName() {
@@ -11,6 +12,10 @@ export default function (sequelize) {
     generateToken(expiresIn = '1h') {
       const data = { id: this.id, email: this.email };
       return tokenHelper.generateToken(data, expiresIn);
+    }
+
+    static associate(models) {
+      User.hasMany(models.Todo, { foreignKey: 'userId', onDelete: 'CASCADE' });
     }
   }
 
