@@ -33,7 +33,7 @@ export default function (sequelize) {
       }
     },
     {
-      modelName: "Todo",
+      modelName: "todo",
       sequelize,
     }
   );

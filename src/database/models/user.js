@@ -15,7 +15,7 @@ export default function (sequelize) {
     }
 
     static associate(models) {
-      User.hasMany(models.Todo, { foreignKey: 'userId', onDelete: 'CASCADE' });
+      User.hasMany(models.todo, { foreignKey: 'userId', onDelete: 'CASCADE' });
     }
   }
 
