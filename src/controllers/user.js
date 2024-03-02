@@ -28,3 +28,15 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
+
+// get a user by id
+export const getUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await db.models.user.findByPk(userId);
+    return res.json({ success: true, data: user });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, error: "Error al obtener el usuario por ID" });
+  }
+};
