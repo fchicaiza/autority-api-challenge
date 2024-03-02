@@ -40,3 +40,19 @@ export const getUserById = async (req, res) => {
     return res.status(500).json({ success: false, error: "Error al obtener el usuario por ID" });
   }
 };
+
+// update a user
+export const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { firstName, lastName, email, password } = req.body;
+    const updatedUser = await db.models.user.update(
+      { firstName, lastName, email, password },
+      { where: { id: userId } }
+    );
+    return res.json({ success: true, data: updatedUser });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, error: "Error al actualizar el usuario por ID" });
+  }
+};
