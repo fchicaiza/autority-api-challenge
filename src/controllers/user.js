@@ -10,10 +10,10 @@ export const createUser = async (req, res) => {
       email,
       password,
     });
-    return res.json({ success: true, data: newUser });
+    return res.status(201).json({ success: true, status: 201, message: "Usuairo creado exitosamente", data: newUser });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: "Error al crear el usuario" });
+    return res.status(500).json({ success: false, status: 500, error: "Error al tratar de crear el usuario" });
   }
 };
 
@@ -21,23 +21,22 @@ export const createUser = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await db.models.user.findAll();
-    return res.json({ success: true, data: users });
+    return res.json({ success: true, status: 200, data: users });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: "Error al obtener usuarios" });
+    return res.status(500).json({ success: false, error: "Error al tratar de obtener usuarios" });
   }
 };
-
 
 // get a user by id
 export const getUserById = async (req, res) => {
   try {
     const userId = req.params.id;
     const user = await db.models.user.findByPk(userId);
-    return res.json({ success: true, data: user });
+    return res.json({ success: true, status: 200, data: user });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: "Error al obtener el usuario por ID" });
+    return res.status(500).json({ success: false, error: "Error al tratar de obtener el usuario por ID" });
   }
 };
 
@@ -46,11 +45,18 @@ export const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
     const { firstName, lastName, email, password } = req.body;
-    const updatedUser = await db.models.user.update(
+    const [rowCount, updatedUser] = await db.models.user.update(
       { firstName, lastName, email, password },
-      { where: { id: userId } }
+      { where: { id: userId }, returning: true }
     );
-    return res.json({ success: true, data: updatedUser });
+    if (rowCount === 0) 
+    return res.status(404).json({ success: false, status:404, error: "Usuario no encontrado" });
+    return res.status(202).json({
+      success: true,
+      status: 202,
+      message: "El usuario fue actualizado exitosamente",
+      data: updatedUser[0],
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, error: "Error al actualizar el usuario por ID" });
@@ -62,7 +68,9 @@ export const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
     const deletedUser = await db.models.user.destroy({ where: { id: userId } });
-    return res.json({ success: true, data: deletedUser });
+    return res
+      .status(202)
+      .json({ success: true, status: 202, message: "El usuario ha sido eliminado exitosamente", result: deletedUser });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, error: "Error al eliminar el usuario por ID" });
