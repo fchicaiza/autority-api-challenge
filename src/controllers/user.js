@@ -56,3 +56,15 @@ export const updateUser = async (req, res) => {
     return res.status(500).json({ success: false, error: "Error al actualizar el usuario por ID" });
   }
 };
+
+//Function to delete a user
+export const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const deletedUser = await db.models.user.destroy({ where: { id: userId } });
+    return res.json({ success: true, data: deletedUser });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, error: "Error al eliminar el usuario por ID" });
+  }
+};

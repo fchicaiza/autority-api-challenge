@@ -1,5 +1,5 @@
 import indexRouter from "@/routes/index";
-import { createUser, getAllUsers, getUserById, updateUser } from "@/controllers/user";
+import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from "@/controllers/user";
 
 export default function (app) {
   app.use("/", indexRouter); 
@@ -10,5 +10,7 @@ export default function (app) {
   
   app.use("/user/:id", getUserById);
   
-  app.use("/user/:id", updateUser)
+  app.use("/user/:id", updateUser);
+
+  app.use("/user/:id", deleteUser);
 }
