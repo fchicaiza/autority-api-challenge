@@ -67,6 +67,10 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
+    const existingUser = await db.models.user.findByPk(userId);
+    if (!existingUser) {
+      return res.status(404).json({ success: false, status: 404, error: "El usuario no existe" });
+    }
     const deletedUser = await db.models.user.destroy({ where: { id: userId } });
     return res
       .status(202)
@@ -76,3 +80,4 @@ export const deleteUser = async (req, res) => {
     return res.status(500).json({ success: false, error: "Error al eliminar el usuario por ID" });
   }
 };
+

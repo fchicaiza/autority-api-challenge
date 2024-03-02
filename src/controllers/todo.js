@@ -69,17 +69,19 @@ export const updateTask = async (req, res) => {
 
 //Function to delete a task
 export const deleteTask = async (req, res) => {
-
-  console.log(req.params.id)
   try {
     const taskId = req.params.id;
+    const existingTask = await db.models.todo.findByPk(taskId);
+    if (!existingTask) {
+      return res.status(404).json({ success: false, status: 404, error: "La tarea no existe" });
+    }
     const deletedTask = await db.models.todo.destroy({ where: { id: taskId } });
-    console.log(deletedTask)
     return res
       .status(202)
-      .json({ success: true, status: 202, message: "La tarea ha sido eliminado exitosamente", result: deletedTask });
+      .json({ success: true, status: 202, message: "La tarea ha sido eliminada exitosamente", result: deletedTask });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: "Error al tratar de eliminar la tarea seleccionada " });
+    return res.status(500).json({ success: false, error: "Error al tratar de eliminar la tarea seleccionada" });
   }
 };
+
