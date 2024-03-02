@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 
 export default function (sequelize) {
   class Todo extends Model {
-    get description(){
+    get displayDescription(){
       return `${this.description}`
     }
     static associate(models) {

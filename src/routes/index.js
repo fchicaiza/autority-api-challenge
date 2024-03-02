@@ -30,4 +30,6 @@ router.get("/task/:id", todoController.getTaskById);
 
 router.put("/task/:id", todoController.updateTask);
 
+router.delete("/task/:id", todoController.deleteTask);
+
 export default router;

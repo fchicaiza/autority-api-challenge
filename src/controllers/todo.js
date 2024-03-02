@@ -34,7 +34,7 @@ export const getTaskById = async (req, res) => {
   try {
     const taskId = req.params.id;
     const task = await db.models.todo.findByPk(taskId);
-    return res.json({ success: true, status: 200, data: task });
+    return res.json({ success: true, status: 200, message: "No se ha encontrado la tarea solicitada",  data: task });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, error: "Error al tratar de obtener la tarea seleccionada" });
@@ -63,5 +63,23 @@ export const updateTask = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, error: "Error al actualizar la tarea seleccionada" });
+  }
+};
+
+
+//Function to delete a task
+export const deleteTask = async (req, res) => {
+
+  console.log(req.params.id)
+  try {
+    const taskId = req.params.id;
+    const deletedTask = await db.models.todo.destroy({ where: { id: taskId } });
+    console.log(deletedTask)
+    return res
+      .status(202)
+      .json({ success: true, status: 202, message: "La tarea ha sido eliminado exitosamente", result: deletedTask });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, error: "Error al tratar de eliminar la tarea seleccionada " });
   }
 };
