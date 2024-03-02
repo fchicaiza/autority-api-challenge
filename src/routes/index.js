@@ -9,7 +9,9 @@ router.get('/', homeController.index);
 
 router.get('/health', homeController.healthCheck);
 
-router.post('user', userController.createUser);
+router.post('/user', userController.createUser);
+
+router.get('/user', userController.getAllUsers)
 
 
 export default router;
