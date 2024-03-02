@@ -26,4 +26,6 @@ router.post("/task", todoController.createTask);
 
 router.get("/task", todoController.getAllTasks);
 
+router.get("/task/:id", todoController.getTaskById);
+
 export default router;

@@ -28,3 +28,16 @@ export const getAllTasks = async (req, res) => {
     return res.status(500).json({ success: false, error: "Error al tratar de obtener las tareas" });
   }
 };
+
+// get a task by id
+export const getTaskById = async (req, res) => {
+  try {
+    const taskId = req.params.id;
+    const task = await db.models.todo.findByPk(taskId);
+    return res.json({ success: true, status: 200, data: task });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, error: "Error al tratar de obtener la tarea seleccionada" });
+  }
+};
+
