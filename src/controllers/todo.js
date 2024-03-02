@@ -18,3 +18,13 @@ export const createTask = async (req, res) => {
   }
 };
 
+// function to get all tasks
+export const getAllTasks = async (req, res) => {
+  try {
+    const tasks = await db.models.todo.findAll();
+    return res.json({ success: true, status: 200, data: tasks });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, error: "Error al tratar de obtener las tareas" });
+  }
+};

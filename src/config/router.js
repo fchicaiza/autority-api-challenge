@@ -1,6 +1,6 @@
 import indexRouter from "@/routes/index";
 import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from "@/controllers/user";
-import { createTask } from "@/controllers/todo";
+import { createTask, getAllTasks } from "@/controllers/todo";
 
 export default function (app) {
   app.use("/", indexRouter);
@@ -18,5 +18,7 @@ export default function (app) {
 
   // CRUD Todo Endpoints
   app.use("/task", createTask);
-  
+
+  app.use("/task", getAllTasks);
+
 }

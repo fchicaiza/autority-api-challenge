@@ -24,4 +24,6 @@ router.delete("/user/:id", userController.deleteUser);
 // Todo routes
 router.post("/task", todoController.createTask);
 
+router.get("/task", todoController.getAllTasks);
+
 export default router;
